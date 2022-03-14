@@ -13,5 +13,5 @@ app.use(serverRoutes)
 
 
 app.listen(2000, (req,res) => {
-    console.log('has been started');
+    console.log('has been startedd');
 })
