@@ -1,6 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
 let cars = [
     {
-        id: 1,
+        id: uuidv4(),
         owner_id: 1,
         car_name: "gentra",
         car_id: 3,
@@ -8,7 +9,7 @@ let cars = [
         color_id: 23
     },
     {
-        id: 2,
+        id: uuidv4(),
         owner_id: 2,
         car_name: "matiz",
         car_id: 1,
@@ -16,7 +17,7 @@ let cars = [
         color_id: 23
     },
     {
-        id: 3,
+        id: uuidv4(),
         owner_id: 4,
         car_name: "cobalt",
         car_id: 8,
@@ -24,7 +25,7 @@ let cars = [
         color_id: 3
     },
     {
-        id: 4,
+        id: uuidv4(),
         owner_id: 5,
         car_name: "tiko",
         car_id: 6,
@@ -32,7 +33,7 @@ let cars = [
         color_id: 2
     },
     {
-        id: 5,
+        id: uuidv4(),
         owner_id: 2,
         car_name: "spark",
         car_id: 7,
@@ -40,7 +41,7 @@ let cars = [
         color_id: 12
     },
     {
-        id: 6,
+        id: uuidv4(),
         owner_id: 5,
         car_name: "gentra",
         car_id: 3,
@@ -55,23 +56,24 @@ export const getAll = (req,res) =>{
 }
 export const createCar = (req,res) => {
     const new_car = req.body
-    new_car.id = cars.length + 1
+    new_car.id = uuidv4()
     cars.push(new_car)
     res.status(201).json({car_id: `${new_car.id}`}) 
 }
 export const updateCar = (req,res) => {
-    const req_id = +req.params.id 
-    const updatecar = req.body
-    updatecar.id = req_id
-    cars[req_id - 1] = updatecar
-    res.status(201).json({massage: `${req_id}`})
+    const idx = req.params.id
+    cars = cars.filter(elem => elem.id !== idx)
+    const updcar = req.body
+    updcar.id = idx
+    cars.push(updcar)
+    res.status(201).json({massage: `${idx}`})
 }
 
 export const deleteCar = (req,res) => {
-    const idx = +req.params.id
+    const idx = req.params.id
     cars = cars.filter(elem => elem.id !== idx)
     res.status(201).json({massage: `${idx}`})
-
+    
 }
 
 
