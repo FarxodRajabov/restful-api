@@ -62,10 +62,14 @@ export const createCar = (req,res) => {
 }
 export const updateCar = (req,res) => {
     const idx = req.params.id
-    cars = cars.filter(elem => elem.id !== idx)
+    const indCar = cars.findIndex(elem => elem.id === idx)
     const updcar = req.body
     updcar.id = idx
-    cars.push(updcar)
+    if (indCar !== -1) {
+        cars[indCar] = updcar
+    }else {
+        cars.push(updcar)
+    }
     res.status(201).json({massage: `${idx}`})
 }
 
@@ -81,3 +85,11 @@ export const colorId = (req,res) => {
     const identical_cars = cars.filter(elem => elem.color_id === +req.params.id)
     res.json(identical_cars)
 } 
+
+export const partialUpd = (req, res) => {
+    const idx = req.params.id
+    const indCar = cars.findIndex(elem => elem.id === idx)
+    const updcar = req.body
+    cars[indCar] = {...cars[indCar], ...updcar}
+    res.status(201).json({car_id: `${idx}`})
+}
